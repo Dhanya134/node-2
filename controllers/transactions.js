@@ -4,6 +4,7 @@ const Transaction = require('../models/Transaction');
 // @route   GET /api/v1/transactions
 // @access  Public
 exports.getTransactions = async (req, res, next) => {
+  //res.setHeader("Access-Control-Allow-Origin",'*')
   try {
     const transactions = await Transaction.find();
 
@@ -24,6 +25,7 @@ exports.getTransactions = async (req, res, next) => {
 // @route   POST /api/v1/transactions
 // @access  Public
 exports.addTransaction = async (req, res, next) => {
+  //res.setHeader('Access-Control-Allow-Origin','*')
   try {
     const { text, amount } = req.body;
 
