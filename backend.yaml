@@ -1,0 +1,81 @@
+#BAckend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-backend
+  labels:
+    app: node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      name: backend-Pod
+      labels:
+        app: node-app
+    spec:  
+       containers:  
+        - name: backend-container 
+          image: dhanyashree/nodeserver:h5
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 5000
+          env:
+          - name: DB_USERNAME
+            valueFrom: 
+              secretKeyRef:
+                name: dhanya-secret
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: dhanya-secret
+                key: password
+          - name: DB_URL
+            value: 'mongo-service.dhanya-assign.svc.cluster.local:27017/data'
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+              value: '5000'
+          - name: BASE_URL
+            value: http://node-route-dhanya-assign.edge-dev-410-915b3b336cabec458a7c7ec2aa7c625f-0000.us-south.containers.appdomain.cloud
+
+---
+#backend service
+kind: Service
+apiVersion: v1
+metadata:
+  name: node-service-backend
+  namespace: dhanya-assign
+spec:
+  type: ClusterIP
+  ports:
+    - name: backend
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+  selector:
+    app: node-app
+---
+#routes backend
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: back-route
+  namespace: dhanya-assign
+  labels:
+        app: node-app
+spec:
+  to:
+    kind: Service
+    name: node-service-backend
+    weight: 100
+  port:
+    targetPort: backend
+
+           
+          
+
+
