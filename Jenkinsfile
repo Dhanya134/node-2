@@ -1,11 +1,7 @@
 pipeline
 {
-  agent {
-    node{
-      label: "nodejs"
-    }
-  }
-}
+  agent  any
+  {
 stages{
   stage("build")
   {
@@ -31,7 +27,7 @@ stages{
             toImageTag     : "${env.BUILD_NUMBER}"
       ])
        }
-  }
+  }*/
   stage('deploy') {
         steps {
             script {
@@ -44,7 +40,7 @@ stages{
                 }
             }
         } 
-    }*/
+    }
 }
 }
   
