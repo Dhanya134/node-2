@@ -26,12 +26,12 @@ spec:
           - name: DB_USERNAME
             valueFrom: 
               secretKeyRef:
-                name: dhanya-secret
+                name: mongodb-secret
                 key: username
           - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: dhanya-secret
+                name: mongodb-secret
                 key: password
           - name: DB_URL
             value: 'mongo-service.dhanya-jenkins.svc.cluster.local:27017/data'
