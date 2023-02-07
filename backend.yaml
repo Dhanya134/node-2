@@ -63,7 +63,7 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: back-route
+  name: node-route-back
   namespace: dhanya-jenkins
   labels:
         app: node-app
