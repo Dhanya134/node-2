@@ -31,7 +31,7 @@ stages{
             toImageTag     : "${env.BUILD_NUMBER}"
       ])
        }
-  }*/
+  }
   stage('deploy') {
         steps {
             script {
@@ -44,7 +44,7 @@ stages{
                 }
             }
         } 
-    }
+    }*/
 }
 }
   
