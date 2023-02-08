@@ -22,7 +22,7 @@ spec:
           imagePullPolicy: Always
           ports:
           - containerPort: 3000
-        env:
+          env:
           - name: REACT_APP_API_BASE_URL
             value: http://back-route-dhanya-jenkins.edge-dev-410-915b3b336cabec458a7c7ec2aa7c625f-0000.us-south.containers.appdomain.cloud 
 ---
