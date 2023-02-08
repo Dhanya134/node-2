@@ -1,3 +1,11 @@
+library identifier: "pipeline-library@v1.5",
+retriever: modernSCM(
+  [
+    $class: "GitSCMSource",
+    remote: "https://github.com/redhat-cop/pipeline-library.git" 
+  ]
+)
+
 pipeline
 {
   agent  any
@@ -16,7 +24,7 @@ stages{
       }
     }
   }
-  /*stage("Tag image") {
+  stage("Tag image") {
        steps{
     tagImage([
             sourceImagePath: "dhanya-jenkins",
@@ -27,7 +35,7 @@ stages{
             toImageTag     : "${env.BUILD_NUMBER}"
       ])
        }
-  }*/
+  }
   stage('deploy') {
         steps {
             script {
