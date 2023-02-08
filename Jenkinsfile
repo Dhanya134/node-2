@@ -28,10 +28,10 @@ stages{
        steps{
     tagImage([
             sourceImagePath: "dhanya-jenkins",
-            sourceImageName: "node-server",
+            sourceImageName: "node-gitserver",
             sourceImageTag : "latest",
             toImagePath: "dhanya-jenkins",
-            toImageName    : "node-server",
+            toImageName    : "node-gitserver",
             toImageTag     : "${env.BUILD_NUMBER}"
       ])
        }
