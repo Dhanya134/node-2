@@ -18,22 +18,22 @@ spec:
     spec:  
        containers:  
         - name: frontend-container 
-          image: dhanyashree/nodeclient:h2
+          image: image-registry.openshift-image-registry.svc:5000/dhanya-jenkins/node-gitclient:latest
           imagePullPolicy: Always
           ports:
           - containerPort: 3000
         env:
           - name: REACT_APP_API_BASE_URL
-            value: http://back-route-dhanya-assign.edge-dev-410-915b3b336cabec458a7c7ec2aa7c625f-0000.us-south.containers.appdomain.cloud 
+            value: http://back-route-dhanya-jenkins.edge-dev-410-915b3b336cabec458a7c7ec2aa7c625f-0000.us-south.containers.appdomain.cloud 
 ---
 #frontend service
 kind: Service
 apiVersion: v1
 metadata:
   name: node-service-frontend
-  namespace: dhanya-assign
+  namespace: dhanya-jenkins
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: targetss
       protocol: TCP
@@ -47,7 +47,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: node-route
-  namespace: dhanya-assign
+  namespace: dhanya-jenkins
   labels:
         app: node-app
 spec:
