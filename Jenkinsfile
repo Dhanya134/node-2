@@ -24,6 +24,19 @@ stages{
       }
     }
   }
+  stage("build-back")
+  {
+    steps{
+      script{
+        openshift.withCluster() {
+          openshift.withProject() {
+             echo "Using project: ${openshift.project()}"
+             openshift.selector("bc" , "back-git").startBuild("--wait")
+          }
+        }
+      }
+    }
+  }
   stage("Tag image") {
        steps{
     tagImage([
@@ -36,6 +49,18 @@ stages{
       ])
        }
   }
+  stage("Tag image back") {
+       steps{
+    tagImage([
+            sourceImagePath: "dhanya-jenkins",
+            sourceImageName: "node-gitserver",
+            sourceImageTag : "latest",
+            toImagePath: "dhanya-jenkins",
+            toImageName    : "node-gitserver",
+            toImageTag     : "${env.BUILD_NUMBER}"
+      ])
+       }
+  }
   stage('deploy') {
         steps {
             script {
@@ -43,7 +68,7 @@ stages{
                     openshift.withProject("$PROJECT_NAME") {
                         echo "Using project: ${openshift.project()}"
                          sh 'oc project "$PROJECT_NAME" '
-                         sh 'oc apply -f frontenddeploy.yaml'
+                         sh 'oc apply -f deploy.yaml'
                     }
                 }
             }
