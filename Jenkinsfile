@@ -18,7 +18,7 @@ stages{
         openshift.withCluster() {
           openshift.withProject() {
              echo "Using project: ${openshift.project()}"
-             openshift.selector("bc" , "back-git").startBuild("--wait")
+             openshift.selector("bc" , "front-git").startBuild("--wait")
           }
         }
       }
@@ -28,10 +28,10 @@ stages{
        steps{
     tagImage([
             sourceImagePath: "dhanya-jenkins",
-            sourceImageName: "node-gitserver",
+            sourceImageName: "node-gitclient",
             sourceImageTag : "latest",
             toImagePath: "dhanya-jenkins",
-            toImageName    : "node-gitserver",
+            toImageName    : "node-gitclient",
             toImageTag     : "${env.BUILD_NUMBER}"
       ])
        }
@@ -43,7 +43,7 @@ stages{
                     openshift.withProject("$PROJECT_NAME") {
                         echo "Using project: ${openshift.project()}"
                          sh 'oc project "$PROJECT_NAME" '
-                         sh 'oc apply -f backend.yaml'
+                         sh 'oc apply -f frontenddeploy.yaml'
                     }
                 }
             }
