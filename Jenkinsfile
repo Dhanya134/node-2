@@ -63,7 +63,7 @@ stages{
   }
   stage("Trigger Deployment Update Pipeline "){
         steps{
-          build job:'node-app-update-deployment-pipeline-front' , parameters: [string(name: 'DOCKER_TAG',value: env.BUILD_NUMBER)]
+          build job:'node-app-update-deployment-pipeline-front' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
         }
       }
   stage("Trigger Deployment Update Pipeline back"){
