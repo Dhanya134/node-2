@@ -44,7 +44,7 @@ stages{
                 openshift.withCluster() {
                     openshift.withProject("$PROJECT_NAME") {
                         echo "Using project: ${openshift.project()}"
-                         oc project "$PROJECT_NAME" 
+                         sh 'oc project "$PROJECT_NAME" '
                          sh 'oc apply -f backend.yaml'
                     }
                 }
