@@ -73,7 +73,7 @@ stages{
           build job:'node-app-update-deployment-pipeline-back' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
         }
       }
-  stage('deploy') {
+  /*stage('deploy') {
         steps {
             script {
                 openshift.withCluster() {
@@ -85,7 +85,12 @@ stages{
                 }
             }
         } 
-    }
+    }*/
+  stage("Trigger Deployment deploy pipeline"){
+        steps{
+          build job:'node-app-update-deployment' 
+        }
+      }
 }
 }
   
