@@ -24,6 +24,23 @@ stages{
       }
     }
   }
+  stage("Tag image") {
+       steps{
+    tagImage([
+            sourceImagePath: "dhanya-jenkins",
+            sourceImageName: "node-gitclient",
+            sourceImageTag : "latest",
+            toImagePath: "dhanya-jenkins",
+            toImageName    : "node-gitclient",
+            toImageTag     : "${env.BUILD_NUMBER}"
+      ])
+       }
+  }
+  stage("Trigger Deployment Update Pipeline "){
+        steps{
+          build job:'node-app-update-deployment-pipeline-front' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
+        }
+      }
   stage("build-back")
   {
     steps{
@@ -37,18 +54,7 @@ stages{
       }
     }
   }
-  stage("Tag image") {
-       steps{
-    tagImage([
-            sourceImagePath: "dhanya-jenkins",
-            sourceImageName: "node-gitclient",
-            sourceImageTag : "latest",
-            toImagePath: "dhanya-jenkins",
-            toImageName    : "node-gitclient",
-            toImageTag     : "${env.BUILD_NUMBER}"
-      ])
-       }
-  }
+  
   stage("Tag image back") {
        steps{
     tagImage([
@@ -61,11 +67,7 @@ stages{
       ])
        }
   }
-  stage("Trigger Deployment Update Pipeline "){
-        steps{
-          build job:'node-app-update-deployment-pipeline-front' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
-        }
-      }
+  
   stage("Trigger Deployment Update Pipeline back"){
         steps{
           build job:'node-app-update-deployment-pipeline-back' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
