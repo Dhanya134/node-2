@@ -73,19 +73,19 @@ stages{
           build job:'node-app-update-deployment-pipeline-back' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
         }
       }
-  stage('deploy') {
-        steps {
-            script {
-                openshift.withCluster() {
-                    openshift.withProject("$PROJECT_NAME") {
-                        echo "Using project: ${openshift.project()}"
-                         sh 'oc project "$PROJECT_NAME" '
-                         sh 'oc apply -f https://github.com/Dhanya134/node-2-update/blob/main/dev/front.yaml'
-                    }
-                }
-            }
-        } 
-    }
+//   stage('deploy') {
+//         steps {
+//             script {
+//                 openshift.withCluster() {
+//                     openshift.withProject("$PROJECT_NAME") {
+//                         echo "Using project: ${openshift.project()}"
+//                          sh 'oc project "$PROJECT_NAME" '
+//                          sh 'oc apply -f https://github.com/Dhanya134/node-2-update/blob/main/dev/front.yaml'
+//                     }
+//                 }
+//             }
+//         } 
+//     }
 //   stage("Trigger Deployment deploy pipeline"){
 //         steps{
 //           build job:'node-app-update-deployment' 
