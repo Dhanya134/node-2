@@ -1,0 +1,55 @@
+library identifier: "pipeline-library@v1.5",
+retriever: modernSCM(
+  [
+    $class: "GitSCMSource",
+    remote: "https://github.com/redhat-cop/pipeline-library.git" 
+  ]
+)
+
+pipeline
+{
+  agent  any
+  
+stages{
+  
+  stage("build-back")
+  {
+    steps{
+      script{
+        openshift.withCluster() {
+          openshift.withProject() {
+             echo "Using project: ${openshift.project()}"
+             openshift.selector("bc" , "back-git").startBuild("--wait")
+          }
+        }
+      }
+    }
+  }
+  
+  stage("Tag image back") {
+       steps{
+    tagImage([
+            sourceImagePath: "dhanya-jenkins",
+            sourceImageName: "node-gitserver",
+            sourceImageTag : "latest",
+            toImagePath: "dhanya-jenkins",
+            toImageName    : "node-gitserver",
+            toImageTag     : "${env.BUILD_NUMBER}"
+      ])
+       }
+  }
+  stage('deploy') {
+        steps {
+            script {
+                openshift.withCluster() {
+                    openshift.withProject("$PROJECT_NAME") {
+                        echo "Using project: ${openshift.project()}"
+                         sh 'oc project "$PROJECT_NAME" '
+                         sh 'oc apply -f backenddeploy.yaml'
+                    }
+                }
+            }
+        } 
+    }
+}
+}
