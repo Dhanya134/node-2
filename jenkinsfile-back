@@ -38,7 +38,7 @@ pipeline {
         stage("Trigger Deployment Update Pipeline front"){
     
         steps{
-          build job:'node-update-deployment-back' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
+          build job:'node-deployment-back' , parameters: [string(name: 'DOCKERTAG',value: env.BUILD_NUMBER)]
         }
       }
     }
