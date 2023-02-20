@@ -66,7 +66,7 @@ stages{
             toImageTag     : "${env.BUILD_NUMBER}"
       ])
        }
-  }
+   }
   
   stage("Trigger Deployment Update Pipeline back"){
         steps{
